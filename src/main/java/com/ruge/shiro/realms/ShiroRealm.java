@@ -4,6 +4,7 @@ import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 
 /**
  * @author 爱丽丝、如歌
@@ -49,11 +50,18 @@ public class ShiroRealm  extends AuthorizingRealm {
          * 1)princapal 认证的实体信息 可以是userName 也可以是数据表对应的用户的实体类对象
          * 2)credentials:密码
          * 3)realmName:当前realm 对象的name 调用父类的getName() 即可
+         * 4)盐值加密   用户名不一样  即便密码一致  但是显示的也不一样
          */
         Object princapal = userName;
-        Object credentials = "123456";
+        Object credentials = null;
+        if("admin".equals(userName)){
+            credentials  = "0c295cdc044cb4117d1377bf951d0374";
+        }else if("user".equals(userName)){
+            credentials  = "7df28ab9a5b62b966ff6d5bd19124135";
+        }
         String realmName = getName();
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(princapal,credentials,realmName);
+        ByteSource salt = ByteSource.Util.bytes(userName);
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(princapal,credentials,salt,realmName);
 
         return info;
     }
