@@ -2,9 +2,13 @@ package com.ruge.shiro.realms;
 
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author 爱丽丝、如歌
@@ -12,10 +16,33 @@ import org.apache.shiro.util.ByteSource;
  * @date 2018/1/5 13:14
  */
 public class ShiroRealm  extends AuthorizingRealm {
+    /**
+     * 用于授权的方法
+     * @param principalCollection
+     * @return
+     */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        System.out.println("密码加密吧");
-        return null;
+        /**
+         * 1.从 PrincipalCollection 中获取登录用户的信息
+         */
+        Object primaryPrincipal = principalCollection.getPrimaryPrincipal();
+        /**
+         * 2.利用登录的用户的信息来匹配当前用户的角色或权限(查询数据库)
+         */
+        Set<String> roles = new HashSet<>();
+        roles.add("user");
+        if ("admin".equals(primaryPrincipal)){
+            roles.add("admin");
+        }
+        /**
+         * 3.创建 SimpleAuthorizationInfo 并设置roles属性
+         */
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo(roles);
+        /**
+         * 4.返回SimpleAuthenticationInfo 对象
+         */
+        return simpleAuthorizationInfo;
     }
 
     /**

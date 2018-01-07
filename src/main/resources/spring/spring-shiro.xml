@@ -77,6 +77,10 @@
                 /login.jsp = anon
                 /login.do = anon
                 /loginOut.do = logout
+
+                /user.jsp = roles[user]
+                /admin.jsp = roles[admin]
+
                 # everything else requires authentication:
                 /** = authc
             </value>
