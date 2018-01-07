@@ -63,6 +63,8 @@
         <property name="loginUrl" value="/login.jsp"/>
         <property name="successUrl" value="/list.jsp"/>
         <property name="unauthorizedUrl" value="/unauthorized.jsp"/>
+
+        <property name="filterChainDefinitionMap" ref="filterChainDefinitionMap"></property>
         <!--
         	配置哪些页面需要受保护.
         	以及访问这些页面需要的权限.
@@ -72,7 +74,7 @@
         	4). roles 角色过滤器
         -->
 
-        <property name="filterChainDefinitions">
+        <!--<property name="filterChainDefinitions">
             <value>
                 /login.jsp = anon
                 /login.do = anon
@@ -84,6 +86,13 @@
                 # everything else requires authentication:
                 /** = authc
             </value>
-        </property>
+        </property>-->
+
     </bean>
+    <bean id="filterChainDefinitionMap" factory-bean="filterChainDefinition" factory-method="init"/>
+    <!--配置一个bean 该bean实际上是一个Map 通过实例工厂方法的方式-->
+    <bean id="filterChainDefinition" class="com.ruge.shiro.realms.filterChainDefinitionMap">
+
+    </bean>
+
 </beans>
