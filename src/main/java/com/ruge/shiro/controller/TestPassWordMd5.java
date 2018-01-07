@@ -16,7 +16,7 @@ public class TestPassWordMd5 {
         String method = "MD5";
         String passWord = "123456";
         String salt = "";
-        int num = 1024;
+        int num = 9527;
        Object result =  new SimpleHash(method,passWord,salt,num);
         System.out.println(result);
     }

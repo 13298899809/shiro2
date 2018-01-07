@@ -31,7 +31,7 @@ public class SysLogin {
                 subject.login(token);
             }catch (AuthenticationException e){
                 e.getMessage();
-                System.out.println("登录失败上 ");
+                System.out.println("登录失败 ");
             }
         }
         return "redirect:/list.jsp";
